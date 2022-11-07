@@ -74,3 +74,14 @@ function CheckInt() {
     echo $amount 
     
 }
+
+//This is the log which holds the information about success and failure of functions.
+//The log opens new log for every record data base.
+function Log() {
+    local calledFun=$1
+    local status1=$2
+    local status2=$3
+    
+    echo $(date +%d/%m/%y" "%T) $calledFun $status1 $status2 >> "$filename"_log
+    status2=""
+}
