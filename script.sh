@@ -49,3 +49,28 @@ function CheckString() {
     echo $recName
     
 }
+
+//Validates the entered amount, only whole numbers allowed, no spaces, >0
+function CheckInt() {
+    local check='^[0-9]+$'
+    local amount
+    local inputCorrect=1   #incorrect,enters while loop
+    local message="Please enter the required amount of records: "
+
+    while [ $inputCorrect -eq 1 ]   #runs as long as the input is incorrect
+    do
+        read -p "$message" amount
+        inputCorrect=0  #correct, exits while loop
+        if ! [[ $amount =~ $check ]]
+        then
+            inputCorrect=1  #incorrect, enters while loop again
+            message="This is not a valid number. Please enter positive whole numbers only, no spaces: "
+        elif [[ $amount -eq 0 ]]
+        then
+            inputCorrect=1  #incorrect, enters while loop again
+            message="This is not a valid number. Please enter numbers greater then 0: "
+        fi
+    done
+    echo $amount 
+    
+}
