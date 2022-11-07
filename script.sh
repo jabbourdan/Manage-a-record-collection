@@ -1,5 +1,5 @@
 #!/bin/bash
-'
+
 //THIS IS OUR GLOBAL VARIABLE WHICH HOLDS THE PATH TO OUR RECORD DATA BASE
 filename=$1
 //checking if the file exist and creating one if not.
@@ -84,4 +84,72 @@ function Log() {
     
     echo $(date +%d/%m/%y" "%T) $calledFun $status1 $status2 >> "$filename"_log
     status2=""
+}
+
+###This function searches for a string and outputs in a numbered menu the list of matches for the string. 
+function MakeList()
+{
+    local final_result=""
+    local search_string=$1
+    local outside_varname=$2
+    local search_result=""
+    local array_of_result=()
+    local number=0
+    local counter=1
+    local status=1
+    local charType='^[0-9]+$'
+    local i=""
+
+    #while loop until the user chose the correct option
+    status=1
+    local readFile=1
+    while [[ $status -eq 1 ]] ; do
+    # read filename line by line using grep and add all the result to array
+        while [[ $readFile -eq 1 ]]
+        do
+        search_result=$(grep "$search_string" "$filename")
+       
+        for i in $search_result; do
+           
+            array_of_result+=("$i")
+        done
+        readFile=0  #finished reading file, exiting while
+        done 
+        
+        counter=1
+        number=0
+        
+        if [[ ${#array_of_result[@]} -eq 1 ]]   #checking if only one value in array
+        then
+            echo "The search result is ${array_of_result[0]}"
+            number=0  #first index ->final result at the end of function
+	    Log $FUNCNAME success
+            status=0 # exits while loop
+        elif  [[ ${#array_of_result[@]} -eq 0 ]]   #checking if no values in array
+        then
+            ##Log $FUNCNAME Failure   #should this be recorded????
+            echo "No matching results"
+            search_string=$(CheckString)
+        else
+            for value in "${array_of_result[@]}"; do
+                echo "$counter) $value"
+                let "counter=($counter+1)"
+            done
+            let "counter=($counter-1)"
+            # prompt for user
+            read -rp "Please choose a number  between 1 to $counter: " number      
+            if [[ $number =~ $charType ]] && [[ $number -le $counter ]] && [[ $number -gt 0 ]]    
+	    #######changed to greater then to avoid negative values, added char validaion
+            then
+                let number=$number-1
+		Log $FUNCNAME success
+                status=0
+            else
+                echo "Invalid input, please choose again."
+                Log $FUNCNAME failure
+            fi
+        fi
+    done
+    final_result="${array_of_result[$number]}"
+    eval $outside_varname="'$final_result'"
 }
