@@ -226,3 +226,47 @@ done
 
 MainMenu
 }
+
+###The function deletes the wanted amount of a certain record.
+function Delete()
+{
+    local SearchString=$(CheckString)
+    local choiceAmount=$(CheckInt)    #chosen amount to delete 
+    local full_tapename
+    local tapename=""
+    local tapeamount=""
+    local inputCorrect=1 #incorrect,enters while loop
+
+    MakeList $SearchString full_tapename  
+    tapename=$(echo $full_tapename | cut -d "," -f "1")
+    tapeamount=$(echo $full_tapename | cut -d "," -f "2")
+    
+    echo "You have selected a tape $tapename with amount of $tapeamount copies"
+    
+    while [ $inputCorrect -eq 1 ] #runs as long as the input is incorrect
+    do
+        #Check if choice is validate
+        if [[ $choiceAmount -le $tapeamount ]]; then
+            
+            inputCorrect=0  #correct, exits while loop
+            #Subtracting amount of copies
+            let finalamount=($tapeamount - $choiceAmount)
+            if [[ "$finalamount" -gt 0 ]]; then
+                sed -i "s/$full_tapename/$tapename,$finalamount/g" $filename
+                echo "New amount copies of $tapename is $finalamount"
+                Log $FUNCNAME Success          
+            else [[ "$finalamount" -eq 0 ]]
+                sed -i "/$full_tapename/d" $filename
+                echo "You have deleted all copies of $tapename"
+                Log $FUNCNAME Success           
+            fi
+        else
+            echo "Incorrect"
+            inputCorrect=1
+            Log $FUNCNAME Failure
+            echo "How many copies would you like to delete? - Maximum  $tapeamount"
+            choiceAmount=$(CheckInt $choice)
+        fi
+    done
+MainMenu    
+}
