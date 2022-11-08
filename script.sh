@@ -215,6 +215,11 @@ do
   Log $FUNCNAME success
   status=1
 
+  else
+
+  echo "invalid text. Please enter 1 or 2!"
+  status=0
+  Log $FUNCNAME failure
   fi
 
 done
