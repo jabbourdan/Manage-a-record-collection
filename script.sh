@@ -29,7 +29,7 @@ function CheckFile () {
 }
 
 
-//The function runs until the input string is correct - no spaces,letters & numbers only
+##The function runs until the input string is correct - no spaces,letters & numbers only
 function CheckString() {
     local check='^[a-zA-Z0-9]+$'
     local recName
@@ -50,7 +50,7 @@ function CheckString() {
     
 }
 
-//Validates the entered amount, only whole numbers allowed, no spaces, >0
+##Validates the entered amount, only whole numbers allowed, no spaces, >0
 function CheckInt() {
     local check='^[0-9]+$'
     local amount
@@ -75,8 +75,8 @@ function CheckInt() {
     
 }
 
-//This is the log which holds the information about success and failure of functions.
-//The log opens new log for every record data base.
+##This is the log which holds the information about success and failure of functions.
+##The log opens new log for every record data base.
 function Log() {
     local calledFun=$1
     local status1=$2
@@ -127,7 +127,7 @@ function MakeList()
             status=0 # exits while loop
         elif  [[ ${#array_of_result[@]} -eq 0 ]]   #checking if no values in array
         then
-            ##Log $FUNCNAME Failure   #should this be recorded????
+            # Log $FUNCNAME Failure   #should this be recorded????
             echo "No matching results"
             search_string=$(CheckString)
         else
@@ -208,7 +208,7 @@ do
         new_string=`echo "$user_choice" | cut -d',' -f 1`
         new_text=`echo $new_string,$new_count`
 
-        #this command replaces the text
+        # this command replaces the text
         sed -i "s/$user_choice/$new_text/g" $filename
 
   echo "record added successfully: $new_text" 
@@ -227,7 +227,7 @@ done
 MainMenu
 }
 
-###The function deletes the wanted amount of a certain record.
+##The function deletes the wanted amount of a certain record.
 function Delete()
 {
     local SearchString=$(CheckString)
@@ -245,11 +245,11 @@ function Delete()
     
     while [ $inputCorrect -eq 1 ] #runs as long as the input is incorrect
     do
-        #Check if choice is validate
+        # Check if choice is validate
         if [[ $choiceAmount -le $tapeamount ]]; then
             
             inputCorrect=0  #correct, exits while loop
-            #Subtracting amount of copies
+            # Subtracting amount of copies
             let finalamount=($tapeamount - $choiceAmount)
             if [[ "$finalamount" -gt 0 ]]; then
                 sed -i "s/$full_tapename/$tapename,$finalamount/g" $filename
