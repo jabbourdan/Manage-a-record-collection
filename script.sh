@@ -270,3 +270,41 @@ function Delete()
     done
 MainMenu    
 }
+
+
+##the function outputs the results of a string search.
+###It will output a list of matching records.
+function Search()
+{
+local string_input=$(CheckString) #the input of the user's string
+local array_of_result=() #the array of which we will print the results
+local array_sorted=()
+local search_result=""
+local sorted=""
+
+# read filename line by line using grep and add all the result to array
+search_result=$(grep "$string_input" "$filename")
+
+if [ -n "$search_result" ]
+then
+        #this is the command to sort the rsults of the search
+        sorted=$(echo $search_result | tr ' ' '\n' | sort )
+        #this is moving the results into an array
+        for i in $sorted; do
+            array_of_result+=("$i")
+        done
+      
+        Log $FUNCNAME Success
+else
+    echo Sorry, no matches.
+    Log $FUNCNAME Failure
+fi
+        
+#prints the sorted search results:
+for value in "${array_of_result[@]}"; do
+echo "$value"
+
+done
+
+MainMenu
+}
