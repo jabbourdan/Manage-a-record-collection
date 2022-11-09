@@ -308,3 +308,34 @@ done
 
 MainMenu
 }
+
+###This function allows the user to change a record's name.
+function UpdateName() {
+    local userinput=""
+    local full_tapename=""
+    local search_string_old=$(CheckString)
+    MakeList $search_string_old full_tapename
+    local isNewNameUnique=1
+    local line_search=""
+    local tapename=$(echo $full_tapename | cut -d "," -f "1")
+    local tapeamount=$(echo $full_tapename | cut -d "," -f "2")
+    echo "A new file name ->"
+    while [[ $isNewNameUnique -eq 1 ]]
+    do
+    userinput=$(CheckString)
+    isNewNameUnique=0
+    local line_search=`grep -w $userinput $filename`
+        if [[ ! -z $line_search ]]
+        then
+            echo "Record name already exists, please choose a different name."
+            isNewNameUnique=1
+        fi
+    done
+    if sed -i "s/$tapename/$userinput/g" "$filename"
+    then
+        Log $FUNCNAME Success
+    else
+        Log $FUNCNAME Failure
+    fi
+MainMenu
+}
