@@ -1,8 +1,8 @@
 #!/bin/bash
 
-//THIS IS OUR GLOBAL VARIABLE WHICH HOLDS THE PATH TO OUR RECORD DATA BASE
+##THIS IS OUR GLOBAL VARIABLE WHICH HOLDS THE PATH TO OUR RECORD DATA BASE
 filename=$1
-//checking if the file exist and creating one if not.
+##checking if the file exist and creating one if not.
 
 function CheckFile () {
     if ! [ -f $filename ]
