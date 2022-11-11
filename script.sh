@@ -339,3 +339,28 @@ function UpdateName() {
     fi
 MainMenu
 }
+
+##This function replaces the amount of a certain type of record with a new amount chosen by the user.
+function UpdateAmount()
+{
+  local input_string=$(CheckString)
+  local new_amount=$(CheckInt)
+ #this is the name of a record and an amount input by the user
+  local status=0 #the condition to enter the while loop.
+while [[ $status -eq 0 ]]
+do       
+        #line_search=`grep $inpu $filename`  #searches for the record in the file
+        MakeList $input_string full_tapename
+
+    	local tapename=$(echo $full_tapename | cut -d "," -f "1")
+    	local old_amount=$(echo $full_tapename | cut -d "," -f "2")
+
+        sed -i "s/"$full_tapename"/"$tapename,$new_amount"/" $filename
+        echo "The change has been made successfully. New amount of copies for $tapename is $new_amount"
+        Log $FUNCNAME Success
+        
+        status=1
+        
+done
+MainMenu
+}
