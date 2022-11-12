@@ -405,3 +405,57 @@ function PrintAll() {
     fi
 MainMenu
 }
+
+### This function is the main menu and the interface of our our program! it also updates the data base after it changes.
+function MainMenu() {
+    local chosenAction
+    local inputString
+    local inputAmount
+    local chosenEntry
+    CheckFile
+    local fileDataUpdate=""
+
+    fileDataUpdate=$(cat $filename)
+
+    #echo printing $1
+    select choice in  Add Delete Search Update_Name Update_Amount Print_Total_Amount Print_Sorted_Collection Exit
+    do
+        case $choice in
+            Add)
+            echo "You have chosen to add records, record name and number of copies to add are required."                  
+            Insert 
+            ;;
+            Delete)
+            echo "You have chosen to delete records, record name and number of copies to delete are required." 
+            Delete   
+            ;;
+            Search)
+            echo "You have chosen to search for records, record name is required."
+            Search    
+            ;;
+            Update_Name)
+            echo "You have chosen to update record name, old record name and new record name are required."
+            UpdateName   
+            ;;
+            Update_Amount)
+            echo "You have chosen to change the record amount, record name and number of copies are required."
+            UpdateAmount   
+            ;;
+            Print_Total_Amount)
+            echo "You have chosen to print the total amount of records."  
+            PrintAmount   
+            ;;
+            Print_Sorted_Collection)
+            echo "You have chosen to print the record collection."   
+            PrintAll   
+            ;;
+            Exit)
+            echo "Exiting record collection database."
+            exit
+            ;;
+            *)
+            echo "Please enter a number, 1-8 only"
+            ;;
+        esac
+    done    
+}
