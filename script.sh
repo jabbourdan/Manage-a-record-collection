@@ -386,3 +386,22 @@ function PrintAmount()
     fi
 MainMenu
 }
+
+### This function prints the entire data base in order. 
+function PrintAll() {
+    local allRecords=$(sort $filename)
+    if [ -s $filename ]
+    then
+        for single in $allRecords
+        do
+            local recordsOnly=$(echo $single | cut -d "," -f "1")
+            local amountOnly=$(echo $single | cut -d "," -f "2")
+            echo Record name: $recordsOnly, Copies: $amountOnly
+            Log $FUNCNAME $recordsOnly $amountOnly
+        done
+    else
+        echo file empty
+        Log $FUNCNAME the_file_is_empty
+    fi
+MainMenu
+}
