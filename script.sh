@@ -163,42 +163,42 @@ function Insert()
     local num=0
     local status=0
     
-while [[ $status -eq 0 ]]
-do
-	echo "Hello! please choose the number of the following options:"
+    while [[ $status -eq 0 ]]
+    do
+        echo "Hello! please choose the number of the following options:"
 	echo "1)Add new record"
 	read -p "2)Add copies to existing record: " num
 	#read number
 
-  if [[ $num -eq 1 ]]
-  then
-  input_string=$(CheckString)
-  input_amount=$(CheckInt)
+    if [[ $num -eq 1 ]]
+    then
+    input_string=$(CheckString)
+    input_amount=$(CheckInt)
 
-  find_in_file=`grep ^"$input_string" "$filename"`
+    find_in_file=`grep ^"$input_string" "$filename"`
 
 
-	while [ -n "$find_in_file" ]
-	do 
-	echo "a record with the same name exists."
-	input_string=$(CheckString)
-	find_in_file=`grep ^"$input_string" "$filename"`
+    while [ -n "$find_in_file" ]
+    do 
+        echo "a record with the same name exists."
+        input_string=$(CheckString)
+        find_in_file=`grep ^"$input_string" "$filename"`
 
-	done
-	Log $FUNCNAME success
+    done
+    Log $FUNCNAME success
 
-  echo "$input_string,$input_amount" >> $filename
-  echo "new record has been added!"
-  status=1 
+    echo "$input_string,$input_amount" >> $filename
+    echo "new record has been added!"
+    status=1 
 
-  elif [[ $num -eq 2 ]]
-  then 
-  input_string=$(CheckString)
-  input_amount=$(CheckInt)
+    elif [[ $num -eq 2 ]]
+    then 
+        input_string=$(CheckString)
+        input_amount=$(CheckInt)
 
-  MakeList $input_string user_choice
+        MakeList $input_string user_choice
 
-  declare old_count=`echo "$user_choice" | cut -d',' -f 2`
+        declare old_count=`echo "$user_choice" | cut -d',' -f 2`
 
         # find the value to add
         let added_value=$input_amount
@@ -211,20 +211,20 @@ do
         # this command replaces the text
         sed -i "s/$user_choice/$new_text/g" $filename
 
-  echo "record added successfully: $new_text" 
-  Log $FUNCNAME success
-  status=1
+        echo "record added successfully: $new_text" 
+        Log $FUNCNAME success
+        status=1
 
-  else
+        else
 
-  echo "invalid text. Please enter 1 or 2!"
-  status=0
-  Log $FUNCNAME failure
-  fi
+        echo "invalid text. Please enter 1 or 2!"
+        status=0
+        Log $FUNCNAME failure
+        fi
 
-done
+    done
 
-MainMenu
+    MainMenu
 }
 
 ##The function deletes the wanted amount of a certain record.
@@ -268,7 +268,7 @@ function Delete()
             choiceAmount=$(CheckInt $choice)
         fi
     done
-MainMenu    
+    MainMenu    
 }
 
 
