@@ -341,14 +341,13 @@ MainMenu
 }
 
 ##This function replaces the amount of a certain type of record with a new amount chosen by the user.
-function UpdateAmount()
-{
-  local input_string=$(CheckString)
-  local new_amount=$(CheckInt)
- #this is the name of a record and an amount input by the user
-  local status=0 #the condition to enter the while loop.
-while [[ $status -eq 0 ]]
-do       
+function UpdateAmount() {
+    local input_string=$(CheckString)
+    local new_amount=$(CheckInt)
+    #this is the name of a record and an amount input by the user
+    local status=0 #the condition to enter the while loop.
+    while [[ $status -eq 0 ]]
+    do       
         #line_search=`grep $inpu $filename`  #searches for the record in the file
         MakeList $input_string full_tapename
 
@@ -361,30 +360,8 @@ do
         
         status=1
         
-done
-MainMenu
-}
-
-###The function will recieve the records names and amounts. It will show the sum of the records in the data base.
-function PrintAmount()
-{
-    local DB=$(cat RECORDS.db | cut -d "," -f 2) #the records database file will output its content into the var DB
-    local sum=0
-    local n=0
-    local no_records=0
-    for n in $DB #for loop that runs over the db file and sums the total amount of records found
-    do
-        let "sum=($sum+$n)" #sum of the total amount
     done
-    if [[ $sum -gt $no_records ]] #the total sum should be greater than 0, if it's equals to zero, it\'ll output the user an error message and log the data
-    then
-        Log $FUNCNAME $sum #logs the amout into Log file
-        echo "Total amount of Records is: " $sum
-    else
-        Log $FUNCNAME $sum
-        echo "no records available"
-    fi
-MainMenu
+    MainMenu
 }
 
 ### This function prints the entire data base in order. 
@@ -418,7 +395,7 @@ function MainMenu() {
     fileDataUpdate=$(cat $filename)
 
     #echo printing $1
-    select choice in  Add Delete Search Update_Name Update_Amount Print_Total_Amount Print_Sorted_Collection Exit
+    select choice in  Add Delete Search Update_Name Update_Amount Print_Sorted_Collection Exit
     do
         case $choice in
             Add)
@@ -440,10 +417,6 @@ function MainMenu() {
             Update_Amount)
             echo "You have chosen to change the record amount, record name and number of copies are required."
             UpdateAmount   
-            ;;
-            Print_Total_Amount)
-            echo "You have chosen to print the total amount of records."  
-            PrintAmount   
             ;;
             Print_Sorted_Collection)
             echo "You have chosen to print the record collection."   
