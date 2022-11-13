@@ -276,17 +276,17 @@ function Delete()
 ###It will output a list of matching records.
 function Search()
 {
-local string_input=$(CheckString) #the input of the user's string
-local array_of_result=() #the array of which we will print the results
-local array_sorted=()
-local search_result=""
-local sorted=""
+    local string_input=$(CheckString) #the input of the user's string
+    local array_of_result=() #the array of which we will print the results
+    local array_sorted=()
+    local search_result=""
+    local sorted=""
 
-# read filename line by line using grep and add all the result to array
-search_result=$(grep "$string_input" "$filename")
+    # read filename line by line using grep and add all the result to array
+    search_result=$(grep "$string_input" "$filename")
 
-if [ -n "$search_result" ]
-then
+    if [ -n "$search_result" ]
+    then
         #this is the command to sort the rsults of the search
         sorted=$(echo $search_result | tr ' ' '\n' | sort )
         #this is moving the results into an array
@@ -295,18 +295,18 @@ then
         done
       
         Log $FUNCNAME Success
-else
-    echo Sorry, no matches.
-    Log $FUNCNAME Failure
-fi
+    else
+        echo Sorry, no matches.
+        Log $FUNCNAME Failure
+    fi
         
-#prints the sorted search results:
-for value in "${array_of_result[@]}"; do
-echo "$value"
+    #prints the sorted search results:
+    for value in "${array_of_result[@]}"; do
+        echo "$value"
 
-done
+    done
 
-MainMenu
+    MainMenu
 }
 
 ###This function allows the user to change a record's name.
